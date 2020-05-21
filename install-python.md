@@ -17,6 +17,9 @@ That's it.
 
 But there's an alternative - [pyenv](https://github.com/pyenv/pyenv). It allows easy version management and an approach that doesn't require root access.
 
+Pyenv
+-----
+
 To install on Mac or Linux:
 
     $ curl https://pyenv.run | bash

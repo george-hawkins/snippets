@@ -1,11 +1,11 @@
-ESP USB to UART bridge
-======================
+ESP32 USB to UART bridge
+========================
 
 Many ESP32 boards, including Espressif's own [ESP32-DevKitC](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-devkitc.html), Adafruit's [HUZZAH32](https://www.adafruit.com/product/3405) and Sparkfun's [ESP32 Thing Plus](https://www.sparkfun.com/products/15663), use the SiLabs CP2104 USB to UART bridge.
 
-Installing a driver for a new development board may be the norm when using Window, but this is one of the first for which I've had to do this on mac OS. The drivers for Windows and Mac can be found on the [SiLabs CP2104 driver page](http://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers). Nothing needs to be installed on Linux as the necessary [driver](https://github.com/torvalds/linux/commits/master/drivers/usb/serial/cp210x.c) has been part of the standard kernel for more than a decade.
+Installing a driver for a new development board may be the norm when using Window, but this is one of the first for which I've had to do this on mac OS. The drivers for Windows and Mac can be found on the [SiLabs CP2104 driver page](http://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers). Nothing needs to be installed on Linux as the necessary [driver](https://github.com/torvalds/linux/blob/master/drivers/usb/serial/cp210x.c) has been part of the standard kernel for more than a decade.
 
-Once the appropriate driver is installed and the board is connected, follow the Espressif [instructions](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/establish-serial-connection.html) on how to determine the board's serial port.
+Once the appropriate driver is installed and the board is connected, follow the Espressif [instructions](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/establish-serial-connection.html) to determine the board's serial port or just try the following.
 
 Mac
 ---

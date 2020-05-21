@@ -50,7 +50,7 @@ Now let's get the DrRacket IDE setup with the "sicp" package:
 
 Go to _File / Package Manager..._ and enter "sicp" in the _Package Source_ field and hit _Install_.
 
-Once completed go to _Language / Choose Language..._ and select the first option "The Racket Language".
+Once completed go to _Language / Choose Language..._ and select the first option "The Racket Language" (if it's not already selected by default). There's no separate option for SICP - it's not really a separate language (despite having its own `#lang` directive - see later).
 
 None of the above steps need to be repeated when opening DrRacket after this.
 

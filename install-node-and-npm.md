@@ -1,7 +1,7 @@
 Installing node and npm
 =======================
 
-The easiest way to install node (and npm) is with [nvm](https://github.com/nvm-sh/nvm) (nvm allows easy version management and doesn't require root access). To install on Mac or Linux:
+The easiest way to install `node` (and `npm`) is with [nvm](https://github.com/nvm-sh/nvm) (nvm allows easy version management and doesn't require root access). To install on Mac or Linux:
 
     $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 
@@ -11,9 +11,12 @@ This installation step updates your `~/.bashrc` so open a new terminal session, 
 
     $ exec $SHELL
 
-Now use nvm to install the latest version of node (and with it npm):
+Now use nvm to install the latest version of `node` (and with it `npm`):
 
     $ nvm install node
+
+You can then check that `node` and `npm` have been installed:
+
     $ node --version
     v13.12.0
     $ npm --version

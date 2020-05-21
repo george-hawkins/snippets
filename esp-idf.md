@@ -13,7 +13,7 @@ Install the [prerequisites](https://docs.espressif.com/projects/esp-idf/en/lates
     $ pip install --user pyserial
     $ brew install cmake ninja
 
-Then just work through the Espressif "[Get ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/#step-2-get-esp-idf)" steps:
+Then just work through the Espressif ["Get ESP-IDF"](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/#step-2-get-esp-idf) steps:
 
     $ mkdir ~/esp
     $ cd ~/esp
@@ -42,7 +42,7 @@ First project
 Copy the included Hello World project:
 
     $ echo $IDF_PATH 
-    /Users/georgehawkins/esp/esp-idf
+    ~/esp/esp-idf
     $ cd ~/esp
     $ cp -r $IDF_PATH/examples/get-started/hello_world .
     $ cd hello_world
@@ -72,7 +72,7 @@ And then interact with the board via the serial port monitor:
 
     $ idf.py -p $PORT monitor
 
-Various bits of interesting boot information flash past:
+Various bits of interesting boot information scroll past:
 
     I (29) boot: ESP-IDF v4.1-dev-2263-g605da33c3 2nd stage bootloader
     I (29) boot: chip revision: 1
