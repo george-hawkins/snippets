@@ -12,7 +12,7 @@ So, if you've activated a venv, almost nothing you should do will change the Pyt
     (env) $ python --version
     Python 3.7.3
 
-Note that when I create the venv here, I use `python3` to make sure I don't accidentally pick up a pre-Python 3 version that may exist on the system. But once the venv is activated I can simply use `python` and be confident it always means the version used to create the environment.
+If virtual environments are new to you, see my notes [here](python-venv.md). As noted there, once the venv is activated, I can simply use `python` and be confident it always means the version used to create the environment.
 
 As a result of all this any system level changes you make won't be apparent if you're in an active venv:
 

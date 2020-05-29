@@ -34,7 +34,7 @@ Then add the following three lines to your `~/.bashrc`:
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 
-You can omit the last of those three lines if you're not interested in using pyenv's ability to create and manage venvs (see [here](https://github.com/pyenv/pyenv-virtualenv#usage) for more details). Personally, I just use the normal Python 3 [venv approach](https://docs.python.org/3/tutorial/venv.html).
+You can omit the last of those three lines if you're not interested in using pyenv's ability to create and manage venvs (see [here](https://github.com/pyenv/pyenv-virtualenv#usage) for more details). Personally, I just use the normal Python 3 [venv approach](python-venv.md).
 
 Now open a new terminal session or just force a reload of `~/.bashrc` like so:
 

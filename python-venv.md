@@ -1,7 +1,7 @@
 Python virtual environments
 ===========================
 
-Python virtual environments (venvs) are an attempt to define a known good environment, with a clearly established set of packages, that is insulated from changes outside the environment.
+Python virtual environments (venvs) are an attempt to define a known good environment, with a clearly established set of packages, that is insulated from changes outside the environment. You can find the Python venv documentation [here](https://docs.python.org/3/tutorial/venv.html).
 
 **TL;DR** - for every Python project you start you should create a corresponding venv like so:
 
@@ -19,13 +19,13 @@ Once the environment is active, the version of `python` and `pip` are unaffected
     (env) $ pip --version
     pip 20.1.1 from .../env/lib/python3.5/site-packages/pip (python 3.5)
 
-Note that when I create the venv here, I use `python3` to make sure I don't accidentally pick up a pre-Python 3 version that may exist on the system. But once the venv is activated I can simply use `python` and be confident it always means the version used to create the environment. Similarly `pip` will be the version appropriate to that environment.
+Note that when I created the venv above, I used `python3` to make sure I didn't accidentally pick up a pre-Python 3 version that might exist on the system. But once the venv is activated I can simply use `python` and be confident it always means the version used to create the environment. Similarly `pip` will be the version appropriate to that environment.
 
 > According to the ["For Python runtime distributors"](https://www.python.org/dev/peps/pep-0394/#for-python-runtime-distributors) section of PEP 394:
 >
 >> When a virtual environment (created by the [PEP 405](https://www.python.org/dev/peps/pep-0405/) `venv` package or a similar tool such as `virtualenv` or `conda`) is active, the `python` command should refer to the virtual environment's interpreter and should always be available. The `python3` or `python2` command (according to the environment's interpreter version) should also be available.
 
-The `venv env` step above simply creates a subdirectory in the _current_ directory with the name `env` (or whatever you choose, `env` is just a name) that contains everything that makes up your environment:
+The `venv env` step up above simply creates a subdirectory in the _current_ directory with the name `env` (or whatever you choose, `env` is just a name) that contains everything that makes up your environment:
 
     (env) $ ls env
     bin/  include/  lib/  lib64@  pyvenv.cfg  share/
@@ -35,11 +35,11 @@ The `source` step activates the environment by reading and executing the command
     (env) $ deactive
     $
 
-The package installer tool `pip` is generally updated far more often than Python. When you create a venv you generally get the version of `pip` that was packaged with the version of Python that you used to create the environment. This may be quite out-of-date so typically the first thing to do, on having created a new venv, is to update `pip`.
+The package installer tool `pip` is generally updated far more often than Python. When you create a venv, you generally get the version of `pip` that was packaged with the version of Python that you used to create the environment. This may be quite out-of-date, so typically the first thing to do, on having created a new venv, is to update `pip`.
 
 Note that there's no similarly simple step you can take to upgrade Python itself. The best tool for managing Python versions and keeping up-to-date with the latest releases of Python is `pyenv` (see my notes on `pyenv` [here](install-python.md)). Even then you need to have determined the version of Python you want to use _before_ you create a venv, once created the venv is essentially tied to that particular Python version.
 
-You might ask "why not just create one venv for all my projects?" This is essentially what you get if you use `pip` which the `--user` flag. This is indeed safer than using `sudo` and installing packages in some system-wide location - you won't break any system behavior. But you will eventually break one of your own projects. If you use a single venv you'll eventually install a newer version of some package that one of your other projects already depends on but which has changed in a non-backward compatible way that will break that project. It's much better to maintain environments on a per-project basis.
+You might ask "why not just create one venv for all my projects?" This is essentially what you get if you use `pip` which the `--user` flag. This is indeed safer than using `sudo` and installing packages in some system-wide location - you won't break any system behavior. But you will eventually break one of your own projects. If you use a single venv you'll eventually install a newer version of some package that one of your other projects already depends on but which has changed in a non-backward compatible way that will break that other project. It's much better to maintain environments on a per-project basis.
 
 Note: `pip` caches downloaded packages and, where builds are required, caches the resulting [wheel](https://www.python.org/dev/peps/pep-0427/) to avoid repeated identical builds. So once you've installed a given version of a package in one project, it's extremely quick to install it after that in other projects. I.e. intalling the same thing in multiple venvs may have some space cost but, after the first install, it doesn't have much of a time cost.
 
@@ -55,7 +55,7 @@ E.g. if you're using a language like Java with a package manager like [Maven](ht
 
 The issue with Python is that while `pip` downloads (and properly caches) specific versions of packages it unpacks them into unversioned directory names, i.e. it's missing the `2.0.3.RELEASE` etc. bit that we see above for the Spring Boot example.
 
-E.g. if you install `numpy` version 1.16.6 then `pip` will download the bundle that corresponds to that version, cache it and then unpack it to a directory named `numpy`. If you ever ask it to install that version again `pip` can correrctly find the locally cached version and quickly install it. The issue is that it if you use a common root installation directory then a given dependency is always unpacked to the same subdirectory, e.g. directory `numpy`, irrespective of its version. So if you later install `numpy` version 1.18.4, it will essentially end up in the same location as your earlier 1.16.6 version, essentially upgrading the package.
+E.g. if you install `numpy` version 1.16.6 then `pip` will download the bundle that corresponds to that version, cache it and then unpack it to a directory named `numpy`. If you ever ask it to install that version again `pip` can correrctly find the locally cached version and quickly install it. The issue is that it if you use a common root installation directory then a given dependency is always unpacked to the same subdirectory, e.g. directory `numpy`, irrespective of its version. So if you later install `numpy` version 1.18.4, it will end up in the same location as your earlier 1.16.6 version, essentially upgrading the package.
 
 Upgraded packages may sound nice, but if the package has changed in a non-backward compatible manner then this may well break any code that was depending on 1.16.6 behavior. This isn't a theoretical concern - if you do any serious Python development you will quickly hit this issue in practice.
 
@@ -65,7 +65,7 @@ So take two popular packages [cryptography](https://pypi.org/project/cryptograph
 
 Note: even if you use venvs, you can still end up with this type of problem, e.g. if you used both cryptography and html5lib together in a single project, there's no getting around the fact that you may have difficulties satisfying the transitive dependency versions. Luckily this generally isn't an issue for popular packages that are kept up-to-date - you more often run into this issue if installing one package now and another several months later, once the world and the underlying dependencies have moved on.
 
-Luckily things aren't quite as extreme as the Javascript world where it's very common for packages to pull in huge numbers of additional dependencies. In the Python world most packages pull in a relatively small amount of additional dependencies.
+Luckily things aren't quite as extreme as the Javascript world where it's very common for packages to pull in huge numbers of additional dependencies. In the Python world most packages pull in a relatively small number of additional dependencies.
 
 For reasons that aren't clear to me this whole problem seems to have become less of an issue over the years - perhaps this reflects a more mature Python ecosystem. Back-in-the-day getting a compatible set of transitive dependencies for a mid-sized project, with a reasonable number of direct dependencies, could be a nightmare and you'd end up using a tool like Conda.
 
@@ -76,7 +76,7 @@ Sometimes venvs aren't enough and getting a work set of dependencies within a si
 
 You can choose to download the entire repository of packages and know that you have every package that you're ever probably likely to need and that they, and their transitive dependencies, should all work well together.
 
-But more likely you want to install just the package manager and download packages as you need them.
+But more likely, you want to install just the package manager and download packages as you need them.
 
 The Conda people came up with a very confusing set of similar terms that many people have difficulty keeping separate in their heads - Conda, Miniconda and Anaconda. For a good explanation of what these terms mean, see this [SO answer](https://stackoverflow.com/a/58147674/245602).
 
@@ -162,18 +162,18 @@ As you can see `pip` downloads a specific version in both cases but the results 
 
 Non-backward compatible changes are surprisingly common in the Python ecosystem so installing everything like this into one common area makes your Python setup extremely brittle. Not only do you risk breaking changes to your own projects but if you install into the system-wide location you also risk breaking system behavior.
 
-In short you should leave the system packages as they are - they've all been chosen by your OS vendor to work well together. If you do need to install something Python related for the system you should do this with the system specific installation tools, e.g. `apt`, and never with `pip`. However, in general you should _never_ need to do this - you should only ever be installing packages for your own projects.
+In short you should leave the system packages as they are - they've all been chosen by your OS vendor to work well together. If you do need to install something Python related for the system, you should do this with the system specific installation tools, e.g. `apt`, and never with `pip`. However, in general you should _not_ need to do this - you should only ever be installing packages for your own projects.
 
-Since version 20.0 (released late January, 2020) `pip` defaults to installing to a user specific location (see the the first item of the _Features_ section of the [20.0 release notes](https://pip.pypa.io/en/stable/news/#id48)). Debian and Ubuntu actually unilateraly defaulted to thie behavior far earler (see the 8.0.2-4 section of the [python-pip changelog](https://metadata.ftp-master.debian.org/changelogs/main/p/python-pip/unstable_changelog)).
+Alternatives
+------------
+
+Over the years there have been various venv schemes, the most common one that you'll see in older tutorials is [`virtualenv`](https://virtualenv.pypa.io/en/latest/user_guide.html). Unlike `venv`, it's a separate package and needs to be installed before you can use it. Once installed, it and `venv` are almost identical for basic usage - in fact if you come across a tutorial for `virtualenv`, you can just substitute `venv` and probably need no further modification. `virtualenv` is still under active development and as the `virtualenv` people [note](https://virtualenv.pypa.io/en/latest/), `virtualenv` does actually provide features that are not available if using `venv`. However, `venv` covers most people's use cases and does not need to be separately installed. As the Python Packaging guide [notes](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/#installing-virtualenv), since Python 3.3, "the `venv` module is the preferred way to create and manage virtual environments."
+
+In addition to `virtualenv`, various tools provide built-in venv support, e.g. the `pyenv` [virtualenv plugin](https://github.com/pyenv/pyenv-virtualenv#usage) and the Python Poetry [automatic environment management](https://python-poetry.org/docs/managing-environments/). However, these days most people are using the standard Python 3 built-in venv support.
 
 Notes
 -----
 
 See also my [notes](install-python.md) on installing Python, which includes a section on `pyenv`,  and my [notes](venv-and-python-version.md) on how venvs are (or aren't) affected by wider changes to the Python version.
 
-TODO
-----
-
-There have been various venv schemes over the years - virtualenv - and various tools have builtin virtualenv support, e.g. pyevn virtualenv plugin and Python Poetry virtualenv support, but these days most people are using the standard Python 3 builtin venv support.
-
-Go thru your other venv notes elsewhere and point them here.
+Since version 20.0 (released late January, 2020), `pip` defaults to installing to a user specific location (see the the first item of the _Features_ section of the [20.0 release notes](https://pip.pypa.io/en/stable/news/#id48)). Debian and Ubuntu actually unilateraly defaulted to thie behavior far earler (see the 8.0.2-4 section of the [python-pip changelog](https://metadata.ftp-master.debian.org/changelogs/main/p/python-pip/unstable_changelog)).
