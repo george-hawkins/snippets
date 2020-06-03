@@ -22,7 +22,7 @@ Once you've installed Python, you should start using Python virtual environments
 Pyenv
 -----
 
-As just note above, `pyenv` allows for easy version management and an approach that doesn't require root access. E.g. the standard install tools for your system maybe a little behind the current release cycle of Python, `pyenv` makes it easy to pick up the latest version of Python if you want (or to precisely pick an old version if you need to for some reason) and it makes it easy to switch between such Python versions. And at least as importantly, it does this on a per-user basis and without affecting any system installed version of Python, i.e. `pyenv` does all its work without requiring root or administrator privileges and doesn't risk breaking system behavior.
+As just noted above, `pyenv` allows for easy version management and an approach that doesn't require root access. E.g. the standard install tools for your system maybe a little behind the current release cycle of Python, `pyenv` makes it easy to pick up the latest version of Python if you want (or to precisely pick an old version if you need to for some reason) and it makes it easy to switch between such Python versions. And at least as importantly, it does this on a per-user basis and without affecting any system installed version of Python, i.e. `pyenv` does all its work without requiring root or administrator privileges and doesn't risk breaking system behavior.
 
 To install on Mac or Linux:
 

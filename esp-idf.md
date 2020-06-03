@@ -30,7 +30,7 @@ Then after cloning:
 
 This step installs various things under `~/.espressif`.
 
-And finally update the `PATH` etc.:
+And finally, update the `PATH` etc.:
 
     $ source ~/esp/esp-idf/export.sh
 
@@ -51,7 +51,7 @@ You can now configure the build setup like so:
 
     $ idf.py menuconfig
 
-This displays a terminal based menu system. However this step can be skipped as the defaults are fine.
+This displays a terminal-based menu system. However, this step can be skipped as the defaults are fine.
 
 Now to build everything:
 
@@ -61,7 +61,7 @@ This takes some time (and involves building 910 object files).
 
 Now we're almost ready to plug in the board but before we can do that it may be necessary to install a driver for the board's USB to UART bridge - see [here](esp-usb-to-uart.md) for more details.
 
-Once that's done and the board is plugged in, the serial port, that corresponds to the board, needs to be determined. On Mac the port is usually `/dev/cu.SLAB_USBtoUART` and on Linux it's usually `/dev/ttyUSB0`.
+Once that's done and the board is plugged in, the serial port, that corresponds to the board, needs to be determined. On Mac, the port is usually `/dev/cu.SLAB_USBtoUART` and on Linux it's usually `/dev/ttyUSB0`.
 
 Now to flash the result of the build process to the board:
 

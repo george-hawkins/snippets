@@ -3,7 +3,7 @@ Scheme for SICP
 
 After googling about I eventually decided on Racket with its SICP package after reading the "Scheme for SICP" section of ["An opinionated guide to scheme implementations"](https://wingolog.org/archives/2013/01/07/an-opinionated-guide-to-scheme-implementations).
 
-SICP was written for [MIT Scheme](https://www.gnu.org/software/mit-scheme/) - but MIT Scheme seems rather unloved - it's last release was 2 years ago and the one previous to that 5 years ago.
+SICP was written for [MIT Scheme](https://www.gnu.org/software/mit-scheme/) - but MIT Scheme seems rather unloved - its last release was 2 years ago and the one previous to that 5 years ago.
 
 **Update:** MIT Scheme seems to have come back to life and they've been pushing out fairly frequent releases since 10.1 came out in late 2018.
 
