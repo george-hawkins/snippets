@@ -1,7 +1,10 @@
 Connecting up the J-Link EDU Mini
 =================================
 
-TLDR; ...
+**TLDR;** Connect the SWDIO, SWCLK, GND and 3v3 pins of your dev board to the corresponding pins of one end of the 10-pin SWD cable that came with the debugger (see breakout below) and connect the other end of the cable to your debugger (with the red wire of the cable at the top). Install the _J-Link Software and Documentation Pack_ and use `JLinkExe` to connect to your dev board.
+
+The details
+-----------
 
 If there's a good getting started guide to simply connecting up the J-Link EDU Mini to a dev board for the first time, I haven't found it.
 
@@ -52,7 +55,7 @@ So looking at our breakout about again, we're basically left with GND and five o
 
 So what are the other pins and why _might_ you connect them:
 
-* Vref can be connected to the regulated voltage output of your dev board (often labelled 3V3). Connecting this pin allows the debugger to detect when the board is powered up and gives it a reference voltage against which it can determing if the SWDIO or SWCLK pins are high. In general, you _should_ connect this pin but you may get away without doing so.
+* Vref can be connected to the regulated voltage output of your dev board (often labelled 3V3). Connecting this pin allows the debugger to detect when the board is powered up and gives it a reference voltage against which it can determine if the SWDIO or SWCLK pins are high. In general, you _should_ connect this pin but you may get away without doing so.
 * SWO is an optional output pin that isn't a core part of SWD but which you can use to output your own debug specific messages, i.e. you can pepper your code with printf-like statements, configured to write to the SWO pin, and this data can be read and output e.g. by your IDE during a debugging session. For more on SWO, see e.g. this [tutorial from AdAstra](https://adastra-soft.com/poor-man-arm-cortex-m-swo/) or this [one from @McuOnEclipse](https://mcuoneclipse.com/2016/10/17/tutorial-using-single-wire-output-swo-with-arm-cortex-m-and-eclipse/).
 * RST allows the debugger to trigger hard resets of the MCU on the dev board. Depending on how the board is set up this may be necessary (e.g. typical Chinese black-pill boards) but often it is not.
 
@@ -62,7 +65,7 @@ So generally you end up with a setup like this:
 
 Don't be confused - the "RESET" on the board is the label for the board's push button and not the label for the pin that the green wire is connected to.
 
-So here SWDIO, SWCLK are connected along with GND and Vref (an noted, connecting Vref may not strictly be necessary).
+So here SWDIO, SWCLK are connected along with GND and Vref.
 
 The board above is an Adafruit [ItsyBitsy M0 Express](https://www.adafruit.com/product/3727), you'll need to find the location of the relevant pins on your particular board. The ItsyBitsy also has a RST pin (bottom left) but SWO is not made available as a pin so on this particular board you can't connect to SWO even it you want to.
 
@@ -144,7 +147,7 @@ When `JLinkExe` connects to the debugger, it first checks its firmware and if th
 
 In the `JLinkExe` output above, you can see it updated the firmware on my debugger from the version compiled on "Oct 22 2019" to one compiled on "Jan 4 2021".
 
-It also reminds you that J-Link EDU Mini can only be used for non-commerical purposes:
+It also reminds you that J-Link EDU Mini can only be used for non-commercial purposes:
 
 ![terms of use](images/j-link-edu-mini/terms-of-use.png)
 
@@ -250,4 +253,4 @@ That's it - your computer, your J-Link EDU Mini and your dev board are all conne
 Notes
 -----
 
-For more on the JTAG and SWD pins on a 10-pin connector, see this [page from Keil](https://www.keil.com/support/man/docs/ulinkplus/ulinkplus_jtagswd_interface.htm) and for more on the JTAG and SWD pins on a 20-pin connector see the [page from Segger](https://www.segger.com/products/debug-probes/j-link/technology/interface-description/) (as you can see for the 20-pin connector one side is all GND pins so you've actually only got a few real additonal pins over those found on the 10-pin connector).
+For more on the JTAG and SWD pins on a 10-pin connector, see this [page from Keil](https://www.keil.com/support/man/docs/ulinkplus/ulinkplus_jtagswd_interface.htm) and for more on the JTAG and SWD pins on a 20-pin connector see the [page from Segger](https://www.segger.com/products/debug-probes/j-link/technology/interface-description/) (as you can see for the 20-pin connector one side is all GND pins so you've actually only got a few real additional pins over those found on the 10-pin connector).
