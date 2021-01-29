@@ -52,7 +52,7 @@ So looking at our breakout about again, we're basically left with GND and five o
 
 So what are the other pins and why _might_ you connect them:
 
-* Vref can be connected to the regulated voltage output of your dev board (often labelled 3V3). Connecting this pin allows the debugger to detect when the board is powered up and gives it a reference voltage against which it can determing if the SWDIO or SWCLK pins are high (usually, such a reference isn't required but apparently with some boards it can be an issue).
+* Vref can be connected to the regulated voltage output of your dev board (often labelled 3V3). Connecting this pin allows the debugger to detect when the board is powered up and gives it a reference voltage against which it can determing if the SWDIO or SWCLK pins are high. In general, you _should_ connect this pin but you may get away without doing so.
 * SWO is an optional output pin that isn't a core part of SWD but which you can use to output your own debug specific messages, i.e. you can pepper your code with printf-like statements, configured to write to the SWO pin, and this data can be read and output e.g. by your IDE during a debugging session. For more on SWO, see e.g. this [tutorial from AdAstra](https://adastra-soft.com/poor-man-arm-cortex-m-swo/) or this [one from @McuOnEclipse](https://mcuoneclipse.com/2016/10/17/tutorial-using-single-wire-output-swo-with-arm-cortex-m-and-eclipse/).
 * RST allows the debugger to trigger hard resets of the MCU on the dev board. Depending on how the board is set up this may be necessary (e.g. typical Chinese black-pill boards) but often it is not.
 
@@ -165,7 +165,13 @@ This shows that the debugger can't detect any voltage on its Vref pin. Let's dis
 
 Wire things up as shown in the diagram up above - choosing the appropriate 3v3, GND, SWDIO and SWCLK pins on your development board.
 
-TODO: include photos of breadboard setup.
+<table>
+  <tr>
+    <td><img src="images/j-link-edu-mini/breadboard-portrait.jpg"></td><td><img src="images/j-link-edu-mini/breadboard-landscape.jpg"></td>
+  </tr>
+</table>
+
+Note: it's not very clear in the photos, but I soldered 5 _upward_ facing pins of male header onto the end of the dev board where its SWD related pins are found.
 
 Once you've double-checked all the wiring, power the dev board and plug in the debugger.
 
