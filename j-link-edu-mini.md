@@ -23,7 +23,7 @@ Most ARM Cortex dev boards use SWD debugging so let's focus of the 10-pin cable.
   </tr>
 </table>
 
-The two valid options are the ones where red wire is at top, i.e. the red wire of the cable should be just below the "J-Link" that you see top-left on the debugger. The only page I found that mentioned the red wire, and where it should be, was this [one](https://wspublishing.net/articles/j-link-edu-mini-metro-m0-express/) from wspublishing.net but once you know what the pins are for (see below) it's easy enough to verify this using a multimeter in continuity mode.
+The two valid options are the ones where red wire is at top, i.e. the red wire of the cable should be just below the "J-Link" that you see top-left on the debugger. The only page I found that mentioned the red wire, and where it should be, was this [one](https://wspublishing.net/articles/j-link-edu-mini-metro-m0-express/) from wspublishing.net but once you know what the pins are for (see below) it's easy enough to verify this using a multimeter in continuity mode. If things still aren't clear take a look at the photos on the wspublishing.net page or at the photos down below.
 
 Then connecting the other end to your dev board is easy _if_ it has an SWD header like this:
 
@@ -58,6 +58,8 @@ So what are the other pins and why _might_ you connect them:
 * Vref can be connected to the regulated voltage output of your dev board (often labelled 3V3). Connecting this pin allows the debugger to detect when the board is powered up and gives it a reference voltage against which it can determine if the SWDIO or SWCLK pins are high. In general, you _should_ connect this pin but you may get away without doing so.
 * SWO is an optional output pin that isn't a core part of SWD but which you can use to output your own debug specific messages, i.e. you can pepper your code with printf-like statements, configured to write to the SWO pin, and this data can be read and output e.g. by your IDE during a debugging session. For more on SWO, see e.g. this [tutorial from AdAstra](https://adastra-soft.com/poor-man-arm-cortex-m-swo/) or this [one from @McuOnEclipse](https://mcuoneclipse.com/2016/10/17/tutorial-using-single-wire-output-swo-with-arm-cortex-m-and-eclipse/).
 * RST allows the debugger to trigger hard resets of the MCU on the dev board. Depending on how the board is set up this may be necessary (e.g. typical Chinese black-pill boards) but often it is not.
+
+Note: as covered in the J-Link [user guide](https://www.segger.com/downloads/jlink/UM08001) (search for `VC_CORERESET` to find the relevant section), the debugger can reset Cortex-M devices without needing to use a hardware-based reset pin. I can confirm this works with my ATSAMD51-based dev board (simply enter `r` in the J-Link Commander that's discussed further down). So I wonder what requires the hardware reset pin to be connected for certain dev boards despite this.
 
 So generally you end up with a setup like this:
 
@@ -155,6 +157,17 @@ Once you're at the `J-Link>` prompt, you're ready to connect to a target, i.e. y
 
 Note: the usual way to exit from many shell-like application is with ctrl-D. However, if I try that with `JLinkExe`, it coredumps - just enter `q` to quit instead.
 
+J-Link Commander
+----------------
+
+The utility that we've just been using, i.e. `JLinkExe`, is simply `JLink.exe` on Windows and is referred to as [J-Link Commander](https://www.segger.com/products/debug-probes/j-link/tools/j-link-commander/) by Segger.
+
+The documentation for this and all the other tools can be found in the [J-Link user guide](https://www.segger.com/downloads/jlink/UM08001). To say that this documentation is rather overwhelming is an understatement - it's more a comprehensive reference rather than an easy to consume user guide.
+
+Note that the user guide says "Every time you connect to J-Link / J-Trace, JLinkARM.dll checks if its embedded firmware is newer than the one used the J-Link / J-Trace. The DLL will then update the firmware automatically. This process takes less than 3 seconds and does not require a reboot. It is recommended that you always use the latest version of JLinkARM.dll." My reading of this is that `JLinkARM.dll` comes bundled with a corresponding firmware release and not that it goes out and actively checks for new firmware updates released on the web (but I may be misinterpreting).
+
+Aside: on Linux the equivalent to `JLinkARM.dll` is presumable `/opt/SEGGER/JLink/libjlinkarm.so` (for some odd reason, Segger also bundle 32-bit versions of the libraries, even when you install the 64-bit specific `.deb`, so there's also `libjlinkarm_x86.so`).
+
 Connecting to your dev board
 ----------------------------
 
@@ -250,7 +263,70 @@ Note: `JLinkExe` remembers the device you selected, e.g. "ATSAMD51G19", for next
 
 That's it - your computer, your J-Link EDU Mini and your dev board are all connected up and talking to each other. Enter `?` for a long list of commands you can enter at the `J-Link>` prompt. But actually, you're next step will probably be to get the debugger working with GDB and your IDE.
 
+Next steps
+----------
+
+The next thing to try is to get the debugger working with GDB without using any specific IDE, i.e. working from the command line directly with GDB - see this [Adafruit guide](https://learn.adafruit.com/debugging-the-samd21-with-gdb?view=all).
+
+Then try to get things working within an IDE. Eclipse Embedded CDT have a big guide [here](https://eclipse-embed-cdt.github.io/debug/jlink/) to getting started with the J-Link debugger and their J-Link debugging plug-in. @McuOnEclipse has an interesting [article](https://mcuoneclipse.com/2019/09/22/eclipse-jtag-debugging-the-esp32-with-a-segger-j-link/), also using Eclipse Embedded CDT but without the plugin, where he wires up an ESP32 dev board and gets [OpenOCD](http://openocd.org/doc/html/About.html), and the other parts involved, working outside Eclipse (using the command line) and then simply attaches to this as a remote GDB target within Eclipse.
+
+For an alternative to Eclipse Embedded CDT, Laura at _What's On My Moon_ covers getting things working with [PlatformIO](https://platformio.org/) (i.e. VS Code) in this [article](https://laoonatic.com/programming-and-debugging-the-adafruit-metro-m0-express-with-segger-j-link/) but like @McuOnEclipse she gets everything working outside PlatformIO and just uses it for building. It should, of course, be possible to get things working from within PlatformIO and they document debugging with J-Link [here](https://docs.platformio.org/en/latest/plus/debug-tools/jlink.html).
+
+Bootloaders
+-----------
+
+As well as debugging, the primary use for something like the J-Link EDU Mini is getting a bootloader onto a new board or one where the existing bootloader has been bricked.
+
+Adafruit has a nice [piece](https://learn.adafruit.com/introducing-adafruit-itsybitsy-m4/uf2-bootloader-details) on the UF2 bootloader. When put into bootloader mode it presents itself as a USB driver and you both update the bootloader itself by dragging on a `.uf2` file but also install software, e.g. CircuitPython, by also dragging on a `.uf2` file. Interestingly, the bootloader presents itself not just as a USB drive but also as a serial port that can work with [BOSSA](https://www.shumatech.com/web/products/bossa) and the `bossac` command line tool used e.g. by the Arduino IDE to program SAMD targets. Once installed, the bootloader can update itself - as the Adafruit piece notes, dragging on a new `.ufs` bootloader file "will unlock the bootloader section, update the bootloader, and re-lock it." But to get the bootloader on there in the first place or to recover from installing e.g. a buggy development version of the bootloader that bricks your device, you need something like a J-Link debugger.
+
+The Adafruit has a good [guide](https://learn.adafruit.com/how-to-program-samd-bootloaders?view=all) on installing a bootloader on a SAMD board using Atmel Studio. The best bit of it is the non-Atmel Studio specific section where they show how to wire up many different boards, with quite different arrangements for breaking out their SWD related pins, for use with a debugger. If they'd gone into the orientation of the connector on the J-Link EDU Mini itself (i.e. that the red wire on the cable should be at the top), it'd be a near perfect getting started guide for working with the EDU Mini and other J-Link models.
+
+If you'd rather install a bootloader via the command line, this is covered in [this post](https://forums.adafruit.com/viewtopic.php?f=57&t=142170&p=707151#p707151) by [turbinenreiter](https://github.com/turbinenreiter) using J-Link Commander.
+
+Note: both the Atmel Studio guide and the command-line post, just mentioned, are linked to from the UF2 bootloader piece covered above.
+
+For an alternative to using Atmel Studio or J-Link Commander, this [post](http://djynet.net/?p=969) by Charles Walker, covers wiring up an Arduino Nano 33 BLE to a J-Link EDU Mini and flashing a bootloader using the Segger tool `JFlashLite`. Unlike J-Link Commander, `JFlashLite` is a simple GUI-based tool.
+
+Note: the J-Link software pack also includes a more full [J-Flash](https://www.segger.com/products/debug-probes/j-link/tools/j-flash/about-j-flash/) variant, i.e. simply `JFlash`, that features a more complex GUI.
+
+Sparkfun also have a good [guide](https://learn.sparkfun.com/tutorials/arm-programming/) to JTAG, SWD, hardware hookup (for SWD) and bootloaders and how to program them onto a board using Atmel Studio.
+
+J-Link Commander command files
+------------------------------
+
+You can save a sequence of J-Link Commander commands into a command file, i.e. essentially a little script for J-Link Commander, and then run them like so:
+
+```
+$ JLinkExe -device STM32F103ZE -CommandFile my-commands.jlink
+```
+
+This is covered on the Segger wiki page for [J-Link Commander](https://wiki.segger.com/J-Link_Commander#Using_J-Link_Command_Files) and you see a command file being used here to back up the entire contents of a target's flash memory in this [guide](https://www.nathantsoi.com/blog/j-link-getting-started-guide/index.html). The commands look a little obscure but its actually very simple when you take them one at a time and comment them as turbinenreiter does in the post mentioned above, like so:
+
+```
+si 1 // Switch to SWD.
+speed 4000 // Set the speed.
+device ATSAMD51J19 // Set the device.
+loadbin path/to/my-bootloader.bin, 0x00000000 // Flash the .bin file to the given address.
+r // Reset.
+g // Run the program.
+```
+
+Note: the Segger wiki says you should **not** include the `device` command in such command files, but rather specify the device on the command line as shown above.
+
 Notes
 -----
 
+Erik Henneberg has a nice [blog post](https://larsenhenneberg.dk/2020/10/23/atmel-studio-7-and-samd21-arm-m0-board/) on wiring up a black-pill style board (a clone from RobotDyn of the Sparkfun [SAMD21 Mini Breakout](https://www.sparkfun.com/products/13664)) to the J-Link EDU Mini and programming it with a BOSSA bootloader using Atmel Studio (he uses a version of the bootloader that he had to customize but at the end he notes a UF2 bootloader for the same board would work out of the box).
+
 For more on the JTAG and SWD pins on a 10-pin connector, see this [page from Keil](https://www.keil.com/support/man/docs/ulinkplus/ulinkplus_jtagswd_interface.htm) and for more on the JTAG and SWD pins on a 20-pin connector see the [page from Segger](https://www.segger.com/products/debug-probes/j-link/technology/interface-description/) (as you can see for the 20-pin connector one side is all GND pins so you've actually only got a few real additional pins over those found on the 10-pin connector).
+
+DFU question
+------------
+
+I was wondering if you absolutely need a debugger in order to flash a new bootloader onto a dev board for the first time. I've come across [DFU](https://en.wikipedia.org/wiki/USB#Device_Firmware_Upgrade) previously but it's unclear to me what exactly it is.
+
+Many dev boards, in particular STM32 based ones, support DFU and can be updated without any special equipment using [`dfu-util`](http://dfu-util.sourceforge.net/) (or something similar). Do such systems already have to have a bootloader installed? I.e. is updating via DFU is no different to updating a system that already has a UF2 bootloader installed? It's unclear to me if DFU systems are unbrickable, i.e. you can never get them into a state that can't be resolved with `dfu-util`, or can you get them into a state where a debugger is required? It may be that it depends on the system, e.g. it _could_ be that STM32 boards have essentially hardware level support for DFU whereas it's clear that e.g. this [SAMD DFU bootloader](https://github.com/majbthrd/SAMDx1-USB-DFU-Bootloader) first needs to be installed via a debugger and presumably can be gotten into a state that can only be resolved via a debugger.
+
+Is DFU simply a bootloader and if so can a DFU bootloader update itself (as the UF2 bootloader mentioned above can)?
+
+Note: Sparkfun have a nice [guide](https://learn.sparkfun.com/tutorials/how-to-load-micropython-on-a-microcontroller-board/pyboard) to updating MicroPython on an STM32 based board using DFU. However, they also go onto cover updating MicroPython on many other boards and its clear each has its own approach. So it seems DFU isn't quite as universal as the USB Implementers Forum might have hoped when specifying DFU.
