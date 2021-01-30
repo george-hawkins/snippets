@@ -1,5 +1,5 @@
-Connecting up the J-Link EDU Mini
-=================================
+Getting started with the J-Link EDU Mini
+========================================
 
 **TLDR;** Connect the SWDIO, SWCLK, GND and 3v3 pins of your dev board to the corresponding pins of one end of the 10-pin SWD cable that came with the debugger (see breakout below) and connect the other end of the cable to your debugger (with the red wire of the cable at the top). Install the _J-Link Software and Documentation Pack_ and use `JLinkExe` to connect to your dev board.
 
