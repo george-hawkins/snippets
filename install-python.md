@@ -74,3 +74,63 @@ Note that `update` is essentially just doing:
     $ git pull
 
 Actually, it does a bit more - it does some sanity checking and also updates the various plugins found under `~/.pyenv/plugins` (which are pulled from separate git repos).
+
+Tkiniter
+--------
+
+One issue with `pyenv` on MacOS is that installed Python versions do not automatically include [tkinter](https://docs.python.org/3/library/tkinter.html) support.
+
+This is fairly easy to resolve. Assuming you're using `brew`, first determine what version of `tcl-tk` you have installed:
+
+```
+$ brew list --version tcl-tk
+tcl-tk 8.6.11
+```
+
+If it doesn't show a version, then install `tcl-tk`:
+
+```
+$ brew install tcl-tk
+```
+
+Then determine what version of Python you're using:
+
+```
+$ pyenv global
+3.8.7
+```
+
+Uninstall it (enter `y` when asked if you want to remove it):
+
+```
+pyenv uninstall 3.8.7
+```
+
+Normally, if you wanted to reinstall this version, you'd just enter:
+
+```
+$ pyenv install 3.8.7
+```
+
+To get it to pick up `tcl-tk`, we need to precede this with a `PYTHON_CONFIGURE_OPTS` value that tells it where to find things:
+
+```
+$ PYTHON_CONFIGURE_OPTS="--with-tcltk-includes=-I/usr/local/opt/tcl-tk/include --with-tcltk-libs='-L/usr/local/opt/tcl-tk/lib -ltcl8.6 -ltk8.6'" pyenv install 3.8.7
+```
+
+Adjust the references to `8.6` if your version of `tcl-tk` is different (note that the version above was `8.6.11`, you drop the `.11` bit).
+
+To check that things worked, first make sure you're using the Python version you just installed and then run the `tkinter` module:
+
+```
+$ pyenv global 3.8.7
+$ python --version
+Python 3.8.7
+$ python -m tkinter
+```
+
+A little `tkinter` window should whizz around your screen and then stop somewhere looking like this:
+
+![tkinter demo window](images/tkinter.png)
+
+Note: how to set `PYTHON_CONFIGURE_OPTS` correctly was found in `pyenv` issue [#1375](https://github.com/pyenv/pyenv/issues/1375).
