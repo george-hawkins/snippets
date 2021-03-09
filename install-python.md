@@ -78,7 +78,9 @@ Actually, it does a bit more - it does some sanity checking and also updates the
 Tkiniter
 --------
 
-One issue with `pyenv` on MacOS is that installed Python versions do not automatically include [tkinter](https://docs.python.org/3/library/tkinter.html) support.
+The following section covers `tkinter` on MacOS - on Linux things are rather simpler, see this SO [answer](https://stackoverflow.com/a/31299142).
+
+One issue with `pyenv` on MacOS is that installed Python versions do not automatically include [`tkinter`](https://docs.python.org/3/library/tkinter.html) support.
 
 This is fairly easy to resolve. Assuming you're using `brew`, first determine what version of `tcl-tk` you have installed:
 
