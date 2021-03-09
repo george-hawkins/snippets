@@ -105,7 +105,7 @@ $ pyenv global
 Uninstall it (enter `y` when asked if you want to remove it):
 
 ```
-pyenv uninstall 3.8.7
+$ pyenv uninstall 3.8.7
 ```
 
 Normally, if you wanted to reinstall this version, you'd just enter:
