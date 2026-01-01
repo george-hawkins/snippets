@@ -11,3 +11,4 @@ This is a repo of random snippets that aren't big enough in themselves to warran
 * [`docker-macos.md`](docker-macos.md) - install and run macOS in a Docker container.
 * [`bluetooth.md`](bluetooth.md) - get information about your Bluetooth device and manage it on Linux.
 * [`torrenting-at-10Gb.md`](torrenting-at-10Gb.md) - torrenting using a 10Gb connection.
+* [`local-ide-llm.md`](local-ide-llm.md) - installing an LLM locally for use in your IDE.
